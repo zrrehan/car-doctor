@@ -2,3 +2,8 @@
 @plugin "daisyui" {
   themes: light --default
 }
+
+.navbar-links:hover {
+  color: #FF3811;
+  text-decoration: underline;
+}

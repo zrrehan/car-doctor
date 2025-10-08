@@ -5,11 +5,11 @@ import logo from "../../../assets/logo.svg"
 
 function Navbar() {
     const links = <div className="flex flex-col gap-2 lg:flex-row lg:gap-10 font-semibold text-lg">
-        <Link href = "/">Home</Link>
-        <Link href="/">About</Link>
-        <Link href="/">Service</Link>
-        <Link href="/">Blog</Link>
-        <Link href="/">Contact</Link>
+        <Link className="navbar-links" href = "/">Home</Link>
+        <Link className="navbar-links" href="/">About</Link>
+        <Link className="navbar-links" href="/">Service</Link>
+        <Link className="navbar-links" href="/">Blog</Link>
+        <Link className="navbar-links" href="/">Contact</Link>
     </div>
     return(
         <div className="navbar bg-base-100 lg:px-[150px]">
@@ -25,7 +25,7 @@ function Navbar() {
                     </ul>
                 </div>
                 <a className="">
-                    <Image src = {logo} width={107} height={88}></Image>
+                    <Image src = {logo} width={107} height={88} alt = "logo"></Image>
                 </a>
             </div>
             <div className="navbar-center hidden lg:flex">
