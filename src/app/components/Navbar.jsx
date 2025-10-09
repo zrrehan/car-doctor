@@ -1,6 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import logo from "../../../assets/logo.svg"
+import { IoIosLogIn } from "react-icons/io"
 
 
 function Navbar() {
@@ -34,8 +35,8 @@ function Navbar() {
                         {links}
                     </ul>
                 </div>
-                <div className="navbar-end">
-                    <a className="btn btn-outline font-semibold text-lg py-[15px] px-[51px] rounded-md border-[#FF3811] text-[#FF3811] hover:bg-[#FF3811] hover:text-white">Sign Up</a>
+                <div className="navbar-end space-x-5">
+                    <Link href = "/signup" className="btn btn-outline font-semibold text-lg py-[15px] px-[51px] rounded-md border-[#FF3811] text-[#FF3811] hover:bg-[#FF3811] hover:text-white">Sign Up</Link>
                 </div>
             </div>
         </div>
