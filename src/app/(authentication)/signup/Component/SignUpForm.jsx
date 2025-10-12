@@ -22,6 +22,7 @@ function SignUpForm() {
 
     function formSubmitHandler(event) {
         event.preventDefault()
+
         setLoading(true);
         const form = event.target;
         
@@ -63,7 +64,7 @@ function SignUpForm() {
                         });
                     });
             })
-        
+        event.target.reset();
     }
 
     const onDrop = useCallback(acceptedFiles => {
@@ -83,56 +84,59 @@ function SignUpForm() {
     const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
 
     return(
-        <form onSubmit={formSubmitHandler} className="fieldset border-base-300 rounded-box border p-[30px] ">
-            <h1 className="text-[40px] font-semibold text-center">Sign Up</h1>
+        <div className="border-base-300 rounded-box border p-[30px]">
+            <form onSubmit={formSubmitHandler} className="fieldset  ">
+                <h1 className="text-[40px] font-semibold text-center">Sign Up</h1>
 
-            <label className="label ">Name</label>
-            <input type="text" className="input lg:w-[461px]" placeholder="Your Name" name = "name" />
+                <label className="label ">Name</label>
+                <input type="text" className="input lg:w-[461px]" placeholder="Your Name" name="name" />
 
-            <label className="label mt-[10px] ">Email</label>
-            <input type="email" className="input lg:w-[461px]" placeholder="Your Email" name = "email" />
+                <label className="label mt-[10px] ">Email</label>
+                <input type="email" className="input lg:w-[461px]" placeholder="Your Email" name="email" />
 
-            <label className="label mt-[10px] ">Your Image</label>
-            <div {...getRootProps()}>
-                <input {...getInputProps()} />
-                {
-                    isDragActive ?
-                        <div className="border border-green-600 text-green-600 flex justify-center py-5 rounded-md">
-                            <MdOutlineCloudDone size={34} />  
-                        </div> :
-                        <div className="border border-gray-300 text-gray-500 flex justify-center py-5 rounded-md">
-                            {
-                                image ? <div className="flex flex-col items-center">
-                                    <CiImageOn size = {24}/>
-                                    <p>{image[0].name}</p>
-                                </div>
-                                    : <SlCloudUpload size={34} />
-                            }
-                        </div>
-                }
-            </div>
+                <label className="label mt-[10px] ">Your Image</label>
+                <div {...getRootProps()}>
+                    <input {...getInputProps()} />
+                    {
+                        isDragActive ?
+                            <div className="border border-green-600 text-green-600 flex justify-center py-5 rounded-md">
+                                <MdOutlineCloudDone size={34} />
+                            </div> :
+                            <div className="border border-gray-300 text-gray-500 flex justify-center py-5 rounded-md">
+                                {
+                                    image ? <div className="flex flex-col items-center">
+                                        <CiImageOn size={24} />
+                                        <p>{image[0].name}</p>
+                                    </div>
+                                        : <SlCloudUpload size={34} />
+                                }
+                            </div>
+                    }
+                </div>
 
-            <label className="label mt-[10px]">Password</label>
-            <input type={showPassword?"text":"password"} className="input lg:w-[461px]" placeholder="Your Password" name = "password" />
-            <button onClick={passwordEyeClick} className="z-10 w-fit relative -top-[38px] left-[170px] lg:left-[430px]">
-                {
-                    !showPassword ? <IoIosEyeOff size={24} /> : <IoIosEye size={24} />
-                }
-            </button>
-            <button disabled = {loading} className="btn mt-[10px] rounded-lg bg-[#FF3811] font-semibold text-white border-0 shadow-sm shadow-[#FF3811]">
-                {
-                    loading ? <h1 className="flex items-center gap-2">
+                <label className="label mt-[10px]">Password</label>
+                <input type={showPassword ? "text" : "password"} className="input lg:w-[461px]" placeholder="Your Password" name="password" />
+                <span onClick={passwordEyeClick} className="z-10 w-fit relative -top-[38px] left-[155px] lg:left-[430px]">
+                    {
+                        !showPassword ? <IoIosEyeOff size={24} /> : <IoIosEye size={24} />
+                    }
+                </span>
+                <button disabled={loading} className="btn mt-[10px] rounded-lg bg-[#FF3811] font-semibold text-white border-0 shadow-sm shadow-[#FF3811]">
+                    {
+                        loading ? <h1 className="flex items-center gap-2">
                             <span className="loading loading-spinner loading-sm"></span>
                             <span>Loading</span>
                         </h1>
-                    : <p>Register Now</p>
-                }
-            </button>
+                            : <p>Register Now</p>
+                    }
+                </button>
+            </form>
             <SocialAuth actionName={"Sign Up"}></SocialAuth>
             <p className="text-[#737373] text-center mt-5 lg:text-[18px]">
                 Already have an account? <Link href="/login" className="text-[#FF3811]">Log In</Link>
             </p>
-        </form>
+        </div>
+        
     )
 }
 
