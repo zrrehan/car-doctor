@@ -8,32 +8,72 @@ import { SlCloudUpload } from "react-icons/sl";
 import { MdOutlineCloudDone } from "react-icons/md";
 import Swal from "sweetalert2";
 import { CiImageOn } from "react-icons/ci";
-import { ImCancelCircle } from "react-icons/im";
+import { registerUser } from "./registerUser";
+
 
 function SignUpForm() {
     const [showPassword, setShowPassword] = useState(false);
     const [image, setImage] = useState(null);
+    const [loading, setLoading] = useState(false);
+
     function passwordEyeClick() {
         setShowPassword(!showPassword)
     }
 
     function formSubmitHandler(event) {
         event.preventDefault()
+        setLoading(true);
         const form = event.target;
         
         const [name, email, password] = [ 
             form.name.value, form.email.value, form.password.value
         ]
-        console.log(name, email, password)
+        if(name === "" || email === "" || password === "" || image == null) {
+            setLoading(false);
+            Swal.fire({
+                title: "Fillup All Input Fields",
+                icon: "error",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            return 
+        }
+
+        const data = {name, email, password}
+
+        const formData = new FormData();
+        formData.append("image", image[0]);
+
+        fetch(`https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_imgbb_api}`, {
+            method: "POST", 
+            body: formData
+        }).then(res => res.json())
+            .then(imgbbData => {
+                console.log(imgbbData.data.display_url);
+                data.imgUrl = imgbbData.data.display_url;
+                data.imgDeleteUrl = imgbbData.data.delete_url;
+                registerUser(data)
+                    .then((res) => {
+                        setLoading(false);
+                        Swal.fire({
+                            title: res.message,
+                            icon: res.status, 
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    });
+            })
+        
     }
 
     const onDrop = useCallback(acceptedFiles => {
         console.log(acceptedFiles[0]);
         if(!acceptedFiles[0].type.includes("image")) {
             Swal.fire({
-                title: "File Type Error",
-                text: "Please Enter an Image File",
-                icon: "error"
+                title: "Enter an Image File",
+                icon: "error", 
+                showConfirmButton: false,
+                timer: 2000
             });
             setImage(null)
         } else {
@@ -79,7 +119,15 @@ function SignUpForm() {
                     !showPassword ? <IoIosEyeOff size={24} /> : <IoIosEye size={24} />
                 }
             </button>
-            <button className="btn mt-[10px] rounded-lg bg-[#FF3811] font-semibold text-white border-0 shadow-sm shadow-[#FF3811]">Login</button>
+            <button disabled = {loading} className="btn mt-[10px] rounded-lg bg-[#FF3811] font-semibold text-white border-0 shadow-sm shadow-[#FF3811]">
+                {
+                    loading ? <h1 className="flex items-center gap-2">
+                            <span className="loading loading-spinner loading-sm"></span>
+                            <span>Loading</span>
+                        </h1>
+                    : <p>Register Now</p>
+                }
+            </button>
             <SocialAuth actionName={"Sign Up"}></SocialAuth>
             <p className="text-[#737373] text-center mt-5 lg:text-[18px]">
                 Already have an account? <Link href="/login" className="text-[#FF3811]">Log In</Link>
