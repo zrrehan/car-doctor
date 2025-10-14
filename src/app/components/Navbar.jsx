@@ -1,7 +1,10 @@
+"use client";
 import Image from "next/image"
 import Link from "next/link"
 import logo from "../../../assets/logo.svg"
 import { IoIosLogIn } from "react-icons/io"
+import { useSession } from "next-auth/react"
+import useUserInfo from "@/customHooks/useUserInfo";
 
 
 function Navbar() {
@@ -12,6 +15,8 @@ function Navbar() {
         <Link className="navbar-links" href="/">Blog</Link>
         <Link className="navbar-links" href="/">Contact</Link>
     </div>
+
+    const { imgUrl } = useUserInfo();
     return(
         <div className="mb-[50px]">
             <div className="navbar bg-base-100 max-w-[1140px] w-[90%] mx-auto">
@@ -36,7 +41,32 @@ function Navbar() {
                     </ul>
                 </div>
                 <div className="navbar-end space-x-5">
-                    <Link href = "/signup" className="btn btn-outline font-semibold text-lg py-[15px] px-[51px] rounded-md border-[#FF3811] text-[#FF3811] hover:bg-[#FF3811] hover:text-white">Sign Up</Link>
+                    {
+                        imgUrl ? <>
+                            <div className="dropdown dropdown-end">
+                                <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                                    <div className="w-10 rounded-full">
+                                        <img
+                                            alt="Tailwind CSS Navbar component"
+                                            src={imgUrl} />
+                                    </div>
+                                </div>
+                                <ul
+                                    tabIndex="-1"
+                                    className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+                                    <li>
+                                        <a className="justify-between">
+                                            Profile
+                                            <span className="badge">New</span>
+                                        </a>
+                                    </li>
+                                    <li><a>Settings</a></li>
+                                    <li><a>Logout</a></li>
+                                </ul>
+                            </div>
+                        </>
+                            : <Link href="/signup" className="btn btn-outline font-semibold text-lg py-[15px] px-[51px] rounded-md border-[#FF3811] text-[#FF3811] hover:bg-[#FF3811] hover:text-white">Sign Up</Link>
+                    }
                 </div>
             </div>
         </div>

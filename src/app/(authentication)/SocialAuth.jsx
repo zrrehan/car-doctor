@@ -1,20 +1,19 @@
-import { FaFacebookF, FaLinkedinIn } from "react-icons/fa6";
+import { FaGithub } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 
 export default function SocialAuth({actionName}) {
+    function socialButtonClicked(providerName) {
+        console.log("social auth", providerName)
+    }
     return( 
         <div>
             <div className="divider">Or {actionName} With</div>
             <div className="flex justify-center gap-10">
-                <button className="btn btn-circle">
-                    <FaFacebookF color="#3B5998" size={24}/>
+                <button onClick={() => socialButtonClicked("github")} className="btn btn-circle">
+                    <FaGithub color="#9c45ae" size={24} />
                 </button>
 
-                <button className="btn btn-circle">
-                    <FaLinkedinIn color="#0A66C2" size={24} />
-                </button>
-
-                <button className="btn btn-circle">
+                <button onClick={() => socialButtonClicked("google")} className="btn btn-circle">
                     <FcGoogle size={24} />
                 </button>
             </div>
