@@ -1,4 +1,5 @@
 import { LoginUserViaEmail } from "@/app/action/auth/loginUser";
+import dbConnect from "@/app/lib/dbconnect";
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials";
 import GitHubProvider from "next-auth/providers/github";
@@ -46,6 +47,21 @@ export const authOptions = {
     ],
     pages: {
         signIn: '/login',
+    }, 
+    callbacks: {
+        async signIn({ user, account, profile, email, credentials }) {
+            const userExisted = await dbConnect("users").findOne({ providerAccountId: account.providerAccountId })
+            if(!userExisted) {
+                const userData = {
+                    providerAccountId: account.providerAccountId,
+                    name: user.name, 
+                    email: user.email, 
+                    imgUrl: user.image
+                }        
+                const result = await dbConnect("users").insertOne(userData)
+            }
+            return true
+        },
     }
 }
 
