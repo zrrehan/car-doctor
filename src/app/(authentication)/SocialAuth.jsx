@@ -1,10 +1,23 @@
 import { FaGithub } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
+import { signIn } from "next-auth/react"
+import { useEffect } from "react";
+import useUserInfo from "@/customHooks/useUserInfo";
+import { useRouter } from "next/navigation";
 
 export default function SocialAuth({actionName}) {
-    function socialButtonClicked(providerName) {
-        console.log("social auth", providerName)
+    const userData = useUserInfo();
+    const router = useRouter();
+    async function socialButtonClicked(providerName) { 
+        await signIn(providerName, {redirect: false})
     }
+
+    useEffect(() => {
+        if(userData.email) {
+            router.push("/")
+        }
+    }, [userData])
+    
     return( 
         <div>
             <div className="divider">Or {actionName} With</div>

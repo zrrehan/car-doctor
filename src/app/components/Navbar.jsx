@@ -2,9 +2,10 @@
 import Image from "next/image"
 import Link from "next/link"
 import logo from "../../../assets/logo.svg"
-import { IoIosLogIn } from "react-icons/io"
-import { useSession } from "next-auth/react"
+import { signOut } from "next-auth/react"
 import useUserInfo from "@/customHooks/useUserInfo";
+import Swal from "sweetalert2";
+import { MdLogout } from "react-icons/md";
 
 
 function Navbar() {
@@ -17,6 +18,25 @@ function Navbar() {
     </div>
 
     const { imgUrl } = useUserInfo();
+
+    function logOutFunction() {
+        Swal.fire({
+            title: "Are you sure?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, log out!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                signOut();
+                Swal.fire({
+                    title: "Logged Out",
+                    icon: "success"
+                });
+            }
+        });
+    }
     return(
         <div className="mb-[50px]">
             <div className="navbar bg-base-100 max-w-[1140px] w-[90%] mx-auto">
@@ -54,14 +74,10 @@ function Navbar() {
                                 <ul
                                     tabIndex="-1"
                                     className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-                                    <li>
-                                        <a className="justify-between">
-                                            Profile
-                                            <span className="badge">New</span>
-                                        </a>
-                                    </li>
-                                    <li><a>Settings</a></li>
-                                    <li><a>Logout</a></li>
+                                    <button onClick={logOutFunction} className="btn flex">
+                                        <MdLogout />
+                                        <p>Log out</p>
+                                    </button>
                                 </ul>
                             </div>
                         </>

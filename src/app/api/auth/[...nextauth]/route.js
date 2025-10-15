@@ -1,6 +1,8 @@
 import { LoginUserViaEmail } from "@/app/action/auth/loginUser";
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials";
+import GitHubProvider from "next-auth/providers/github";
+import GoogleProvider from "next-auth/providers/google";
 
 
 export const authOptions = {
@@ -32,6 +34,14 @@ export const authOptions = {
                     // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
                 }
             }
+        }), 
+        GitHubProvider({
+            clientId: process.env.GITHUB_ID,
+            clientSecret: process.env.GITHUB_SECRET
+        }),
+        GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET
         })
     ],
     pages: {

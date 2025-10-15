@@ -9,6 +9,16 @@ export default function useUserInfo() {
         imgDeleteUrl: null
     }
     const {email, image, name} = data.user
+    console.log(typeof image)
+    if(typeof image === "string") {
+        return {
+            email,
+            name,
+            imgUrl: image,
+            imgDeleteUrl: null
+        }
+    }
+
     return {
         email, 
         name, 
