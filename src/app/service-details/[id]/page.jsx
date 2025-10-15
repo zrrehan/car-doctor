@@ -18,7 +18,7 @@ export default async function ServiceDetails({params}) {
                     <h1 className="font-bold text-4xl">{title}</h1>
                     <p className="text-[16px] text-[#737373] lg:w-[756px]">{description}</p>
                     <div className="xl:hidden">
-                        <ProceedComponent price={price}></ProceedComponent>
+                        <ProceedComponent price={price} id={id}></ProceedComponent>
                     </div>
                     <div className="grid lg:grid-cols-2 gap-10">
                         {
@@ -32,7 +32,7 @@ export default async function ServiceDetails({params}) {
                     </div>
                 </div>
                 <div className="hidden xl:flex flex-col">
-                    <ProceedComponent price = {price}></ProceedComponent>
+                    <ProceedComponent price={price} id={id}></ProceedComponent>
                     <ServiceNav currentId = {id}></ServiceNav>
                 </div>
             </div>

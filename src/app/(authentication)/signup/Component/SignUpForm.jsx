@@ -50,7 +50,6 @@ function SignUpForm() {
             body: formData
         }).then(res => res.json())
             .then(imgbbData => {
-                console.log(imgbbData.data.display_url);
                 data.imgUrl = imgbbData.data.display_url;
                 data.imgDeleteUrl = imgbbData.data.delete_url;
                 registerUser(data)
@@ -68,7 +67,6 @@ function SignUpForm() {
     }
 
     const onDrop = useCallback(acceptedFiles => {
-        console.log(acceptedFiles[0]);
         if(!acceptedFiles[0].type.includes("image")) {
             Swal.fire({
                 title: "Enter an Image File",

@@ -15,7 +15,6 @@ function LoginForm() {
         event.preventDefault();
         const [email, password] = [event.target.email.value, event.target.password.value]
         const response = await signIn("credentials", {email, password, redirect: false} );
-        console.log(response);
     }
 
     return(
