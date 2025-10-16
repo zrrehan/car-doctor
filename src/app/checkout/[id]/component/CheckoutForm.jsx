@@ -5,10 +5,13 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import Lottie from "lottie-react";
 import emptyBox from "../../../../../assets/lotties/emptyBox.json"
+import { useRouter } from "next/navigation";
+
 
 function CheckoutForm({ id, noService }) {
     const user = useUserInfo();
     const [loading, setLoading] = useState(false);
+    const router = useRouter();
 
     if(noService) {
         return(
@@ -59,6 +62,7 @@ function CheckoutForm({ id, noService }) {
                 });
                 setLoading(false)
                 event.target.reset();
+                router.push(`/service-details/${id}`)
             })
     }
     return(
